@@ -1,38 +1,45 @@
+import json
 import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
 
-data = {
-    "responses": [
-    {
-      "ID": "11778884",
-      "STATUS CODE": "200",
-      "BANK NAME": "Альфа-Банк",
-      "POST DATE": "09.10.2024",
-      "POST TIME": "13:24",
-      "TITLE": "Отличная работа поддержки",
-      "TEXT": "Ребята с поддержки прекрасно выполняют свою работу, как и сам банк. со всеми вопросы мне помогли, все объяснили. отвечали вежливо и понятно. был вопрос с начислением за друзей, не понимал что именно нужно было сделать и как выполнить условия. разговаривал и с оператором, и в мобильном приложении, мне все объяснили. спасибо большое!",
-      "RATING": "5",
-      "VIEWS": "4"
-    },
-    {
-      "ID": "11778883",
-      "STATUS CODE": "200",
-      "BANK NAME": "МТС Банк",
-      "POST DATE": "09.10.2024",
-      "POST TIME": "13:24",
-      "TITLE": "Вернули комиссию",
-      "TEXT": "Получил всю сумму комиссии обратно на карту. Спасибо сотрудникам МТС-Банка за то, что вошли в положение, и сайту Банки.ру! Получил всю сумму комиссии обратно на карту. Спасибо сотрудникам МТС-Банка за то, что вошли в положение, и сайту Банки.ру! Получил всю сумму комиссии обратно на карту. Спасибо сотрудникам МТС-Банка за то, что вошли в положение, и сайту Банки.ру!",
-      "RATING": "5",
-      "VIEWS": "4"
-    },
-    ]
-}
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfTransformer
 
-df = pd.read_json("./data/data_test.json")
-# feature = ["responses"]
-# x = df["responses"]
-# y = data[prediction_class]
-# print(data["responses"][0]["TEXT"])
-# print(df["responses"])
-df_cleaned = pd.json_normalize(data, record_path="responses")
-print(df_cleaned)
+from sklearn.model_selection import train_test_split
 
+from sklearn.linear_model import SGDClassifier
+from sklearn.naive_bayes import MultinomialNB
+
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+
+with open("./data/learn_data.json", "r") as file:
+  data = json.load(file)
+  df = pd.DataFrame(data["responses"])
+
+texts = df["TEXT"] #x
+ratings = df["RATING"] #y
+
+with open("./data/last_data.json", "r") as file:
+  data = json.load(file)
+  df2 = pd.DataFrame(data["responses"])
+
+new_review = df2["TEXT"] #for test
+
+cv = CountVectorizer()
+tf = TfidfTransformer()
+x_texts = cv.fit_transform(texts.values.astype('U'))
+x_texts_tf = tf.fit_transform(x_texts)
+print(x_texts.shape)
+print(cv.vocabulary_.get(u'топ'))
+
+# mnb = MultinomialNB().fit(x_texts_tf, ratings)
+sgdc = SGDClassifier().fit(x_texts_tf, ratings)
+
+x_new_review = cv.transform(new_review)
+x_new_review_tf = tf.transform(x_new_review)
+
+predicted = sgdc.predict(x_new_review_tf)
+
+for doc, category in zip(new_review, predicted):
+  print('%r => %s \n' % (doc, category))

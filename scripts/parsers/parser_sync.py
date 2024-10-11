@@ -73,10 +73,7 @@ class Response():
       "VIEWS" : " ".join(self.getResponseViews().split())
       }
     else: 
-      return {
-      "ID" : ""+self.getResponseId(),
-      "STATUS CODE" : "" + str(self.req.status_code)
-      }
+      print("miss")
 
 def createJson(file_name="data.json"):
   start_info = {"responses": [ ]}
@@ -101,6 +98,5 @@ def main(parse_count):
 
 if path.isfile(json_file) is False:
   json_file = createJson("data.json")
-
 
 main(parse_count)
