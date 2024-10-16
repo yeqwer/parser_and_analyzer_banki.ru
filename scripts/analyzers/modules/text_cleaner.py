@@ -1,11 +1,8 @@
-import nltk 
-import re
 from nltk.corpus import stopwords
-from nltk.stem import PorterStemmer
-from nltk.stem import WordNetLemmatizer
-from nltk.stem.snowball import SnowballStemmer
 from pymorphy3 import MorphAnalyzer
 import pandas as pd
+import nltk 
+import re
 
 nltk.download("stopwords")
 
