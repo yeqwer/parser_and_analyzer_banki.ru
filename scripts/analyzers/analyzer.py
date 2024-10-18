@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import json
-import numpy
 
 #local import
 from modules.text_cleaner import Cleaner 
@@ -22,7 +21,6 @@ with open("./data/test_data.json", "r") as file:
 test_texts = df2["TEXT"] #x_test
 test_ratings = df2["RATING"] #y_test
 print(f"Total testing data ={test_texts.shape}")
-#total test data = 321 lines
 
 #cleaning text
 cl = Cleaner()
@@ -30,6 +28,27 @@ cleaned_train_texts = cl.clean_text(train_texts)
 cleaned_test_texts = cl.clean_text(test_texts)
 
 #set pipelines
-pipelines = Pipelines()
-pipelines.start_all_pipelines(cleaned_train_texts, train_ratings, cleaned_test_texts, test_ratings)
+pipelines = Pipelines.Linear_pipelines()
+pipelines.pass_agress_classifier(cleaned_train_texts, train_ratings, cleaned_test_texts, test_ratings)
 
+# words = cleaned_test_texts.to_string().split()
+# df = pd.DataFrame(words, columns=['word'])
+# count = df["word"].value_counts().reset_index()
+# count.columns = ['word', 'frequency']
+# top_10_words = count.head(10)
+
+# plt.xticks(rotation=60)
+# plt.plot(top_10_words["word"], top_10_words["frequency"])
+# plt.show()
+
+tfidf_matrix, feature_names = pipelines.tfidf_status(cleaned_train_texts)
+df_tfidf = pd.DataFrame(tfidf_matrix.toarray(), columns=feature_names)
+tfidf_sum = df_tfidf.sum(axis=0).reset_index()
+tfidf_sum.columns = ['word', 'tfidf']
+top_words = tfidf_sum.sort_values(by='tfidf', ascending=False).head(50)
+
+plt.title("Наиболее важные слова в текстах")
+plt.subplots_adjust(bottom=0.3)
+plt.xticks(rotation=90)
+plt.plot(top_words['word'], top_words["tfidf"])
+plt.show()

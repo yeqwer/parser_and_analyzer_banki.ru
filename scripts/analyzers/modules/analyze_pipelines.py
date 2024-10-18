@@ -1,7 +1,7 @@
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.feature_extraction.text import TfidfTransformer
-from sklearn.linear_model import SGDClassifier, LogisticRegression
-from sklearn.naive_bayes import GaussianNB, MultinomialNB, ComplementNB, BernoulliNB, CategoricalNB
+from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer, TfidfVectorizer
+from sklearn.linear_model import SGDClassifier, LogisticRegression, PassiveAggressiveClassifier
+from sklearn.naive_bayes import MultinomialNB, ComplementNB, BernoulliNB
+from sklearn.neural_network import MLPClassifier
 from sklearn.svm import LinearSVC
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import DecisionTreeClassifier
@@ -9,6 +9,12 @@ from sklearn.pipeline import Pipeline
 from sklearn.metrics import accuracy_score, classification_report
 
 class Pipelines():
+  
+  def tfidf_status(self, data):
+    tfidf = TfidfVectorizer()
+    tfidf_matrix = tfidf.fit_transform(data)
+    feature_names = tfidf.get_feature_names_out()
+    return tfidf_matrix, feature_names
   
   #all pipelines starter
   def start_all_pipelines(self, train_data_x, train_data_y, test_data_x, test_data_y):
@@ -20,7 +26,8 @@ class Pipelines():
     vector_pipelines.start_all_vector_pipelines(train_data_x, train_data_y, test_data_x, test_data_y)
     trees_pipelines = self.Trees_pipelines()
     trees_pipelines.start_all_trees_pipelines(train_data_x, train_data_y, test_data_x, test_data_y)
-    
+    neural_pipelines = self.Neural_pipelines()
+    neural_pipelines.start_all_neural_pipelines(train_data_x, train_data_y, test_data_x, test_data_y)
 #---------------------------------------------------------------------------------------------------
   class Naive_pipelines():
     
@@ -96,6 +103,18 @@ class Pipelines():
         f"\n  train accuracy_score: {accuracy_score(train_data_y, predict_train)}"
         f"\n  test accuracy_score: {accuracy_score(test_data_y, predict_test)}"
         f"\n  test classification_report: {classification_report(test_data_y, predict_test, zero_division=0.0)}")
+      
+    #add pipeline for PassiveAggressiveClassifier model
+    def pass_agress_classifier(self, train_data_x, train_data_y, test_data_x, test_data_y):
+      pipeline = Pipeline([("vect", CountVectorizer()), ("tfidf", TfidfTransformer()), ("pac", PassiveAggressiveClassifier())]) #("ss", StandardScaler(with_mean=False)), ("norm", Normalizer())
+      pipeline.fit(train_data_x, train_data_y)
+      predict_train = pipeline.predict(train_data_x)
+      predict_test = pipeline.predict(test_data_x)
+      print(
+        f"\nPassiveAggressiveClassifier:"
+        f"\n  train accuracy_score: {accuracy_score(train_data_y, predict_train)}"
+        f"\n  test accuracy_score: {accuracy_score(test_data_y, predict_test)}"
+        f"\n  test classification_report: {classification_report(test_data_y, predict_test, zero_division=0.0)}")
 #---------------------------------------------------------------------------------------------------
   class Vector_pipelines():
 
@@ -136,12 +155,30 @@ class Pipelines():
       
     #add pipeline for DecisionTreeClassifier model
     def decision_tree(self, train_data_x, train_data_y, test_data_x, test_data_y):
-      pipline = Pipeline([("vect", CountVectorizer()), ("tfidf", TfidfTransformer()), ("rfc", DecisionTreeClassifier())]) #("ss", StandardScaler(with_mean=False)), ("norm", Normalizer())
+      pipline = Pipeline([("vect", CountVectorizer()), ("tfidf", TfidfTransformer()), ("rtc", DecisionTreeClassifier())]) #("ss", StandardScaler(with_mean=False)), ("norm", Normalizer())
       pipline.fit(train_data_x, train_data_y)
       predict_train = pipline.predict(train_data_x)
       predict_test = pipline.predict(test_data_x)
       print(
         f"\nDecisionTreeClassifier:"
+        f"\n  train accuracy_score: {accuracy_score(train_data_y, predict_train)}"
+        f"\n  test accuracy_score: {accuracy_score(test_data_y, predict_test)}"
+        f"\n  test classification_report: {classification_report(test_data_y, predict_test, zero_division=0.0)}")
+#---------------------------------------------------------------------------------------------------
+  class Neural_pipelines():
+    
+    #all starter
+    def start_all_neural_pipelines(self, train_data_x, train_data_y, test_data_x, test_data_y):
+      self.mlp_classifier(train_data_x, train_data_y, test_data_x, test_data_y)
+
+    #add pipeline for MLPClassifier model
+    def mlp_classifier(self, train_data_x, train_data_y, test_data_x, test_data_y):
+      pipline = Pipeline([("vect", CountVectorizer()), ("tfidf", TfidfTransformer()), ("mlpc", MLPClassifier())]) #("ss", StandardScaler(with_mean=False)), ("norm", Normalizer())
+      pipline.fit(train_data_x, train_data_y)
+      predict_train = pipline.predict(train_data_x)
+      predict_test = pipline.predict(test_data_x)
+      print(
+        f"\nMLPClassifier:"
         f"\n  train accuracy_score: {accuracy_score(train_data_y, predict_train)}"
         f"\n  test accuracy_score: {accuracy_score(test_data_y, predict_test)}"
         f"\n  test classification_report: {classification_report(test_data_y, predict_test, zero_division=0.0)}")
