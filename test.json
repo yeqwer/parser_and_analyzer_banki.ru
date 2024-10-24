@@ -1,0 +1,38 @@
+{
+  "All pipelines": {
+    "Naive Bayes models": {
+      "Multinomial NB": {
+        "Train accuracy": 0.8062451811873554,
+        "Test accuracy": 0.8286604361370716
+      },
+      "Complement NB": {
+        "Train accuracy": 0.8724749421742483,
+        "Test accuracy": 0.8722741433021807
+      },    
+      "Bernoulli NB": {
+        "Train accuracy": 0.8843484965304549,
+        "Test accuracy": 0.9003115264797508
+      }
+    },
+    "Linear models": {
+      "SGD Classifier": {
+        "Train accuracy": 0.9311488049344642,
+        "Test accuracy": 0.9376947040498442
+      },   
+      "Logistic Regression": {
+        "Train accuracy": 0.9206630686198921,
+        "Test accuracy": 0.9345794392523364
+      },
+      "Passive Aggressive Classifier": {
+        "Train accuracy": 0.9877409406322282,
+        "Test accuracy": 0.9127725856697819
+      } 
+    },
+    "Vector models": {
+      "Linear SVC": {
+        "Train accuracy": 0.9740169622205088,
+        "Test accuracy": 0.9345794392523364
+      } 
+    }
+  }
+}

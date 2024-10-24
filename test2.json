@@ -1,0 +1,16 @@
+[
+  {
+    "All pipelines": [
+      {
+        "Naive Bayes models": [
+          "{\"Multinomial NB\": {\"Train accuracy\": 0.8062451811873554, \"Test accuracy\": 0.8286604361370716}}",
+          "{\"Complement NB\": {\"Train accuracy\": 0.8724749421742483, \"Test accuracy\": 0.8722741433021807}}",
+          "{\"Bernoulli NB\": {\"Train accuracy\": 0.8843484965304549, \"Test accuracy\": 0.9003115264797508}}"
+        ]
+      },
+      {
+        "Linear models": "{\"SGD Classifier\": {\"Train accuracy\": 0.9305319969159599, \"Test accuracy\": 0.9376947040498442}}"
+      }
+    ]
+  }
+]

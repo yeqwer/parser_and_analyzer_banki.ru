@@ -1,0 +1,62 @@
+{
+  "0": {
+    "0": {
+      "model_name": "MultinomialNB",
+      "train_accuracy": 0.8062451811873554,
+      "test_accuracy": 0.8286604361370716
+    },
+    "1": {
+      "model_name": "ComplementNB",
+      "train_accuracy": 0.8724749421742483,
+      "test_accuracy": 0.8722741433021807
+    },
+    "2": {
+      "model_name": "BernoulliNB",
+      "train_accuracy": 0.8843484965304549,
+      "test_accuracy": 0.9003115264797508
+    }
+  },
+  "1": {
+    "0": {
+      "model_name": "SGD Classifier",
+      "train_accuracy": 0.9319198149575945,
+      "test_accuracy": 0.940809968847352
+    },
+    "1": {
+      "model_name": "Logistic Regression",
+      "train_accuracy": 0.9206630686198921,
+      "test_accuracy": 0.9345794392523364
+    },
+    "2": {
+      "model_name": "Passive Aggressive Classifier",
+      "train_accuracy": 0.9876638396299152,
+      "test_accuracy": 0.9158878504672897
+    }
+  },
+  "2": {
+    "0": {
+      "model_name": "Linear SVC",
+      "train_accuracy": 0.9740169622205088,
+      "test_accuracy": 0.9345794392523364
+    }
+  },
+  "3": {
+    "0": {
+      "model_name": "Random Forest Classifier",
+      "train_accuracy": 0.9880493446414803,
+      "test_accuracy": 0.8940809968847352
+    },
+    "1": {
+      "model_name": "Decision Tree Classifier",
+      "train_accuracy": 0.9880493446414803,
+      "test_accuracy": 0.8504672897196262
+    }
+  },
+  "4": {
+    "0": {
+      "model_name": "MLP Classifier",
+      "train_accuracy": 0.9880493446414803,
+      "test_accuracy": 0.9283489096573209
+    }
+  }
+}
