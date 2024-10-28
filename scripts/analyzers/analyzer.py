@@ -37,7 +37,10 @@ def start_analyze_data():
   result = pipelines.start_all_pipelines(cleaned_train_texts, train_ratings, cleaned_test_texts, test_ratings)
   print(result)
 
-  #create plot with most important words
+  #create a plot with most important words before cleaning text
+  plotter.plot_most_important_words(pipelines, train_texts)
+
+  #create a plot with most important words after cleaning text
   plotter.plot_most_important_words(pipelines, cleaned_train_texts)
 
   #write to json

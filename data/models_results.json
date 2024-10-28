@@ -19,8 +19,8 @@
   "1": {
     "0": {
       "model_name": "SGD Classifier",
-      "train_accuracy": 0.9319198149575945,
-      "test_accuracy": 0.940809968847352
+      "train_accuracy": 0.9317656129529683,
+      "test_accuracy": 0.9376947040498442
     },
     "1": {
       "model_name": "Logistic Regression",
@@ -29,8 +29,8 @@
     },
     "2": {
       "model_name": "Passive Aggressive Classifier",
-      "train_accuracy": 0.9876638396299152,
-      "test_accuracy": 0.9158878504672897
+      "train_accuracy": 0.9503469545104086,
+      "test_accuracy": 0.8753894080996885
     }
   },
   "2": {
@@ -49,7 +49,7 @@
     "1": {
       "model_name": "Decision Tree Classifier",
       "train_accuracy": 0.9880493446414803,
-      "test_accuracy": 0.8504672897196262
+      "test_accuracy": 0.8566978193146417
     }
   },
   "4": {

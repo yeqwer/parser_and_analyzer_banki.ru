@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+import time
+import os
 
 class Plotter():
   def plot_most_important_words(self, pipelines, cleaned_train_texts):
@@ -19,7 +21,10 @@ class Plotter():
     
 
     #save plot
-    plt.savefig('./tests/plots/most_imp_words.png')
+    if os.path.exists('./tests/plots/most_imp_words.png'):
+      plt.savefig('./tests/plots/most_imp_words{}.png'.format(int(time.time())))
+    else:
+      plt.savefig('./tests/plots/most_imp_words.png')
 
     #show plot
     # plt.show()
@@ -74,7 +79,10 @@ class Plotter():
               size=12)
 
     #save plot
-    plt.savefig('./tests/plots/model_results.png')
+    if os.path.exists('./tests/plots/most_imp_words.png'):
+      plt.savefig('./tests/plots/model_results{}.png'.format(int(time.time())))
+    else:
+      plt.savefig('./tests/plots/model_results.png')
     
     #show plot
     # plt.show() 
