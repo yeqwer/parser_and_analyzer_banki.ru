@@ -21,10 +21,7 @@ class Plotter():
     
 
     #save plot
-    if os.path.exists('./tests/plots/most_imp_words.png'):
-      plt.savefig('./tests/plots/most_imp_words{}.png'.format(int(time.time())))
-    else:
-      plt.savefig('./tests/plots/most_imp_words.png')
+    plt.savefig('./tests/plots/most_imp_words{}.png'.format(int(time.time())))
 
     #show plot
     # plt.show()
@@ -79,10 +76,7 @@ class Plotter():
               size=12)
 
     #save plot
-    if os.path.exists('./tests/plots/most_imp_words.png'):
-      plt.savefig('./tests/plots/model_results{}.png'.format(int(time.time())))
-    else:
-      plt.savefig('./tests/plots/model_results.png')
+    plt.savefig('./tests/plots/model_results{}.png'.format(int(time.time())))
     
     #show plot
     # plt.show() 
