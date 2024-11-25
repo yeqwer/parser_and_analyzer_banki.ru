@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import time
 import os
+import shutil
 
 class Plotter():
   def plot_most_important_words(self, pipelines, cleaned_train_texts):
@@ -19,12 +20,21 @@ class Plotter():
     plt.xticks(rotation=90)
     plt.plot(top_words['word'], top_words["tfidf"], color = "r")
     
-
     #save plot
-    plt.savefig('./tests/plots/most_imp_words{}.png'.format(int(time.time())))
+    try: 
+      shutil.rmtree(f'./tests/plots/most_important_words')
+    except:
+      pass
+    
+    if not (os.path.exists(f'./tests/plots/most_important_words')):
+      os.makedirs(f'./tests/plots/most_important_words')
+
+    plt.savefig('./tests/plots/most_important_words/most_imp_words{}.png'.format(int(time.time())))
 
     #show plot
     # plt.show()
+
+    plt.close()
 
   def plot_all_models_results(self, data):
     names = []
@@ -76,8 +86,47 @@ class Plotter():
               size=12)
 
     #save plot
-    plt.savefig('./tests/plots/model_results{}.png'.format(int(time.time())))
+    try: 
+      shutil.rmtree(f'./tests/plots/models_results')
+    except:
+      pass
+
+    if not (os.path.exists(f'./tests/plots/models_results')):
+      os.makedirs(f'./tests/plots/models_results')
+
+    plt.savefig('./tests/plots/models_results/model_results{}.png'.format(int(time.time())))
     
     #show plot
     # plt.show() 
 
+    plt.close()
+
+  def plot_most_important_words_by_bank_names(self, pipelines, cleaned_train_texts, bank_name, review_count):
+    tfidf_matrix, feature_names = pipelines.tfidf_status(cleaned_train_texts)
+    df_tfidf = pd.DataFrame(tfidf_matrix.toarray(), columns=feature_names)
+    tfidf_sum = df_tfidf.sum(axis=0).reset_index()
+    tfidf_sum.columns = ['word', 'tfidf']
+    top_words = tfidf_sum.sort_values(by='tfidf', ascending=False).head(40)
+
+    fig, ax = plt.subplots(figsize=(12, 8))
+
+    plt.title(f"Анализ наиболее важных слов в {review_count} отзывах банка: {bank_name}")
+    plt.subplots_adjust(bottom=0.3)
+    plt.xticks(rotation=90)
+    plt.plot(top_words['word'], top_words["tfidf"], color = "r")
+    
+    #save plot
+    try: 
+      shutil.rmtree(f'./tests/plots/most_important_words_by_bank_names/{bank_name}')
+    except:
+      pass
+
+    if not (os.path.exists(f'./tests/plots/most_important_words_by_bank_names/{bank_name}')):
+      os.makedirs(f'./tests/plots/most_important_words_by_bank_names/{bank_name}')
+
+    plt.savefig(f'./tests/plots/most_important_words_by_bank_names/{bank_name}/most_imp_words{int(time.time())}.png')
+
+    #show plot
+    # plt.show()
+
+    plt.close()

@@ -6,9 +6,7 @@ from sklearn.svm import LinearSVC
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.pipeline import Pipeline
-from sklearn.metrics import accuracy_score, classification_report
-
-import json
+from sklearn.metrics import accuracy_score
 
 class Pipelines():
   
@@ -25,7 +23,7 @@ class Pipelines():
     vector_pipelines = self.Vector_pipelines()
     trees_pipelines = self.Trees_pipelines()
     neural_pipelines = self.Neural_pipelines()
-    data = {0 :  naive_pipelines.start_all_nb_pipelines(train_data_x, train_data_y, test_data_x, test_data_y), 
+    data = {0 : naive_pipelines.start_all_nb_pipelines(train_data_x, train_data_y, test_data_x, test_data_y), 
             1 : linear_pipelines.start_all_linear_pipelines(train_data_x, train_data_y, test_data_x, test_data_y), 
             2 : vector_pipelines.start_all_vector_pipelines(train_data_x, train_data_y, test_data_x, test_data_y), 
             3 : trees_pipelines.start_all_trees_pipelines(train_data_x, train_data_y, test_data_x, test_data_y), 

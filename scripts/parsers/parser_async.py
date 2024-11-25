@@ -132,15 +132,5 @@ async def main():
     await task
     id_urls.clear()
 
-
-
-# if path.isfile(json_file) is False:
-#   json_file = createJson("data.json")
-#   asyncio.run(main())
-# else:
-#   if remove_file_before_start:
-#     os.remove(json_file)
-#   asyncio.run(main())
-
 proxy_id = requests.get(main_url, proxies = proxies_list, stream=True)
 print(proxy_id.raw._connection.sock.getsockname())

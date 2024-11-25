@@ -1,7 +1,6 @@
 import os
 import json
 import requests
-import asyncio
 from bs4 import BeautifulSoup
 from os import path
 
@@ -87,7 +86,6 @@ def writeJson(new_data, json_file="data.json"):
     file_data["responses"].append(new_data)
     file.seek(0)
     json.dump(file_data, file, indent = 2, ensure_ascii=False)
-
 
 def main(parse_count):
   print("start")
