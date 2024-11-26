@@ -29,7 +29,7 @@ class Plotter():
     if not (os.path.exists(f'./tests/plots/most_important_words')):
       os.makedirs(f'./tests/plots/most_important_words')
 
-    plt.savefig('./tests/plots/most_important_words/most_imp_words{}.png'.format(int(time.time())))
+    plt.savefig('./tests/plots/most_important_words/most_imp_word_{}.png'.format(int(time.time())))
 
     #show plot
     # plt.show()
@@ -94,14 +94,14 @@ class Plotter():
     if not (os.path.exists(f'./tests/plots/models_results')):
       os.makedirs(f'./tests/plots/models_results')
 
-    plt.savefig('./tests/plots/models_results/model_results{}.png'.format(int(time.time())))
+    plt.savefig('./tests/plots/models_results/model_results_{}.png'.format(int(time.time())))
     
     #show plot
     # plt.show() 
 
     plt.close()
 
-  def plot_most_important_words_by_bank_names(self, pipelines, cleaned_train_texts, bank_name, review_count):
+  def plot_most_important_words_by_bank_names(self, pipelines, cleaned_train_texts, bank_name, review_count, positive):
     tfidf_matrix, feature_names = pipelines.tfidf_status(cleaned_train_texts)
     df_tfidf = pd.DataFrame(tfidf_matrix.toarray(), columns=feature_names)
     tfidf_sum = df_tfidf.sum(axis=0).reset_index()
@@ -109,22 +109,35 @@ class Plotter():
     top_words = tfidf_sum.sort_values(by='tfidf', ascending=False).head(40)
 
     fig, ax = plt.subplots(figsize=(12, 8))
+    
+    if (positive):
+      np = "положительное"
+    else:
+      np = "негативное"
 
-    plt.title(f"Анализ наиболее важных слов в {review_count} отзывах банка: {bank_name}")
+    plt.title(f"Банк: {bank_name} | Количество отзывов: {review_count} | Настроение: {np}")
     plt.subplots_adjust(bottom=0.3)
     plt.xticks(rotation=90)
     plt.plot(top_words['word'], top_words["tfidf"], color = "r")
     
     #save plot
     try: 
-      shutil.rmtree(f'./tests/plots/most_important_words_by_bank_names/{bank_name}')
+      if (positive):
+        shutil.rmtree(f'./tests/plots/most_important_words_by_bank_names/{bank_name}/positive')
+      else:
+        shutil.rmtree(f'./tests/plots/most_important_words_by_bank_names/{bank_name}/negative')
     except:
       pass
 
-    if not (os.path.exists(f'./tests/plots/most_important_words_by_bank_names/{bank_name}')):
-      os.makedirs(f'./tests/plots/most_important_words_by_bank_names/{bank_name}')
+    if not (os.path.exists(f'./tests/plots/most_important_words_by_bank_names/{bank_name}/positive')):
+      os.makedirs(f'./tests/plots/most_important_words_by_bank_names/{bank_name}/positive')
+    if not (os.path.exists(f'./tests/plots/most_important_words_by_bank_names/{bank_name}/negative')):
+      os.makedirs(f'./tests/plots/most_important_words_by_bank_names/{bank_name}/negative')
 
-    plt.savefig(f'./tests/plots/most_important_words_by_bank_names/{bank_name}/most_imp_words{int(time.time())}.png')
+    if(positive):
+      plt.savefig(f'./tests/plots/most_important_words_by_bank_names/{bank_name}/positive/most_imp_words_{int(time.time())}.png')
+    else:
+      plt.savefig(f'./tests/plots/most_important_words_by_bank_names/{bank_name}/negative/most_imp_words_{int(time.time())}.png')
 
     #show plot
     # plt.show()

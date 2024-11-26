@@ -13,7 +13,7 @@ with open("./data/train_data.json", "r", encoding='utf-8') as file:
 df_train_bank_names = df_train["BANK NAME"]
 train_texts = df_train["TEXT"] #x_train
 train_ratings = df_train["RATING"] #y_train
-print(f"Total training data ={train_texts.shape}")
+print(f"\nTotal training data ={train_texts.shape}")
 
 #set data for testing
 with open("./data/test_data.json", "r", encoding='utf-8') as file:
@@ -22,7 +22,7 @@ with open("./data/test_data.json", "r", encoding='utf-8') as file:
 df_test_bank_names = df_test["BANK NAME"]
 test_texts = df_test["TEXT"] #x_test
 test_ratings = df_test["RATING"] #y_test
-print(f"Total testing data ={test_texts.shape}")
+print(f"\nTotal testing data ={test_texts.shape}\n")
 
 #find all bank names
 df_bank_names = pd.concat([df_train, df_test], ignore_index=True)
@@ -44,22 +44,49 @@ def start_analyze_data():
     json.dump(result, file, indent=2)
 
 def sort_to_bank_names():
-  x = {"":[]}
+  x = {"":[[]]}
   for index, row in df_bank_names.iterrows():
     current_bank = row["BANK NAME"]
     current_text = row["TEXT"]
+    current_rating = row["RATING"]
     if(current_bank in x):
-      x[current_bank].append(current_text)
+      x[current_bank].append([current_text, current_rating])
     else:
-      x[current_bank] = [current_text] 
+      x[current_bank] = [[current_text, current_rating]] 
+
   x.pop("")
-  print(f"Total number of banks: {len(x)}")
+
+  bank_review = {"":0}
+  for bank in x:
+    bank_review[bank] = len(x[bank])
+  bank_review.pop("")
+  bank_review = sorted(bank_review.items(), key=lambda review: review[1], reverse=False)
+  for i in bank_review:
+    print(f"{i[0]} have {i[1]} reviews")
+  print(f"\nTotal number of banks: {len(x)}\n")
+
   return x
 
 def start_analyze_data_by_bank_names():
   x = sort_to_bank_names()
+
   for index, row in x.items():
-    plotter.plot_most_important_words_by_bank_names(pipelines, cleaner.clean_text(pd.Series(row)), index, len(row))
+    current_negative = []
+    current_positive = []
+
+    for r in row:
+      if (int(r[1]) <= 3):
+          current_negative.append(r[0])
+      else:
+          current_positive.append(r[0])
+
+    if (current_positive):
+      plotter.plot_most_important_words_by_bank_names(pipelines, cleaner.clean_text(pd.Series(current_positive)), index, len(current_positive), True)
+    if (current_negative):
+      plotter.plot_most_important_words_by_bank_names(pipelines, cleaner.clean_text(pd.Series(current_negative)), index, len(current_negative), False)  
+
+    current_positive.clear()
+    current_negative.clear()  
 
 def plot_models_results():
   #read models results in json
@@ -77,7 +104,7 @@ def plot_most_imp_words():
   plotter.plot_most_important_words(pipelines, cleaned_train_texts)
 
 #start analyzers and plotter draws
-# start_analyze_data()
-# plot_models_results()
-# plot_most_imp_words()
+start_analyze_data()
+plot_models_results()
+plot_most_imp_words()
 start_analyze_data_by_bank_names()
