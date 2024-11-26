@@ -1,3 +1,4 @@
+from sklearn.model_selection import train_test_split
 import pandas as pd
 import json
 
@@ -7,25 +8,20 @@ from modules.analyze_pipelines import Pipelines
 from modules.plots_creator import Plotter
 
 #set data for training
-with open("./data/train_data.json", "r", encoding='utf-8') as file:
+with open("./data/data.json", "r", encoding='utf-8') as file:
   data = json.load(file)
-  df_train = pd.DataFrame(data["responses"])
-df_train_bank_names = df_train["BANK NAME"]
-train_texts = df_train["TEXT"] #x_train
-train_ratings = df_train["RATING"] #y_train
-print(f"\nTotal training data ={train_texts.shape}")
+  df = pd.DataFrame(data["responses"])
+bank_names = df["BANK NAME"]
+texts = df["TEXT"] #x_train
+ratings = df["RATING"] #y_train
 
-#set data for testing
-with open("./data/test_data.json", "r", encoding='utf-8') as file:
-  data = json.load(file)
-  df_test = pd.DataFrame(data["responses"])
-df_test_bank_names = df_test["BANK NAME"]
-test_texts = df_test["TEXT"] #x_test
-test_ratings = df_test["RATING"] #y_test
-print(f"\nTotal testing data ={test_texts.shape}\n")
+#data split
+x_train, x_test, y_train, y_test = train_test_split(texts, ratings, test_size=0.30, random_state=42, shuffle=True)
+print(f"\nTotal data to train: {len(x_train)}")
+print(f"\nTotal data to test: {len(x_test)}\n")
 
 #find all bank names
-df_bank_names = pd.concat([df_train, df_test], ignore_index=True)
+# df_bank_names = pd.concat([df_train, df_test], ignore_index=True)
 
 #init libraries
 plotter = Plotter()
@@ -33,11 +29,11 @@ cleaner= Cleaner()
 pipelines = Pipelines()
 
 #cleaning data
-cleaned_train_texts = cleaner.clean_text(train_texts)
-cleaned_test_texts = cleaner.clean_text(test_texts)
+cleaned_x_train = cleaner.clean_text(x_train)
+cleaned_x_test = cleaner.clean_text(x_test)
 
 def start_analyze_data():
-  result = pipelines.start_all_pipelines(cleaned_train_texts, train_ratings, cleaned_test_texts, test_ratings)
+  result = pipelines.start_all_pipelines(cleaned_x_train, y_train, cleaned_x_test, y_test)
 
   #write to json
   with open("./data/models_results.json", "w", encoding='utf-8') as file:
@@ -45,7 +41,7 @@ def start_analyze_data():
 
 def sort_to_bank_names():
   x = {"":[[]]}
-  for index, row in df_bank_names.iterrows():
+  for index, row in df.iterrows():
     current_bank = row["BANK NAME"]
     current_text = row["TEXT"]
     current_rating = row["RATING"]
@@ -98,10 +94,10 @@ def plot_models_results():
 
 def plot_most_imp_words(): 
   #create a plot with most important words before cleaning text
-  plotter.plot_most_important_words(pipelines, train_texts)
+  plotter.plot_most_important_words(pipelines, x_train)
 
   #create a plot with most important words after cleaning text
-  plotter.plot_most_important_words(pipelines, cleaned_train_texts)
+  plotter.plot_most_important_words(pipelines, cleaned_x_train)
 
 #start analyzers and plotter draws
 start_analyze_data()

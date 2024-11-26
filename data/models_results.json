@@ -2,61 +2,61 @@
   "0": {
     "0": {
       "model_name": "MultinomialNB",
-      "train_accuracy": 0.8062451811873554,
-      "test_accuracy": 0.8286604361370716
+      "train_accuracy": 0.800709448564979,
+      "test_accuracy": 0.8031594784353059
     },
     "1": {
       "model_name": "ComplementNB",
-      "train_accuracy": 0.8724749421742483,
-      "test_accuracy": 0.8722741433021807
+      "train_accuracy": 0.8712243362356229,
+      "test_accuracy": 0.8412738214643932
     },
     "2": {
       "model_name": "BernoulliNB",
-      "train_accuracy": 0.8843484965304549,
-      "test_accuracy": 0.9003115264797508
+      "train_accuracy": 0.8831559711920886,
+      "test_accuracy": 0.8706118355065195
     }
   },
   "1": {
     "0": {
       "model_name": "SGD Classifier",
-      "train_accuracy": 0.9313030069390902,
-      "test_accuracy": 0.940809968847352
+      "train_accuracy": 0.9439965602493819,
+      "test_accuracy": 0.9084754262788365
     },
     "1": {
       "model_name": "Logistic Regression",
-      "train_accuracy": 0.9206630686198921,
-      "test_accuracy": 0.9345794392523364
+      "train_accuracy": 0.9211007201977857,
+      "test_accuracy": 0.9062186559679037
     },
     "2": {
       "model_name": "Passive Aggressive Classifier",
-      "train_accuracy": 0.9878180416345412,
-      "test_accuracy": 0.9096573208722741
+      "train_accuracy": 0.9873159195958293,
+      "test_accuracy": 0.8836509528585758
     }
   },
   "2": {
     "0": {
       "model_name": "Linear SVC",
-      "train_accuracy": 0.9740169622205088,
-      "test_accuracy": 0.9345794392523364
+      "train_accuracy": 0.9763517145006987,
+      "test_accuracy": 0.9059679037111334
     }
   },
   "3": {
     "0": {
       "model_name": "Random Forest Classifier",
-      "train_accuracy": 0.9880493446414803,
-      "test_accuracy": 0.8940809968847352
+      "train_accuracy": 0.9876383962162744,
+      "test_accuracy": 0.8711133400200601
     },
     "1": {
       "model_name": "Decision Tree Classifier",
-      "train_accuracy": 0.9880493446414803,
-      "test_accuracy": 0.8535825545171339
+      "train_accuracy": 0.9876383962162744,
+      "test_accuracy": 0.8335005015045135
     }
   },
   "4": {
     "0": {
       "model_name": "MLP Classifier",
-      "train_accuracy": 0.9880493446414803,
-      "test_accuracy": 0.9283489096573209
+      "train_accuracy": 0.9876383962162744,
+      "test_accuracy": 0.8989468405215647
     }
   }
 }
